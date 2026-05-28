@@ -1,0 +1,14 @@
+# Ẩn file chứa API Key nhạy cảm (QUAN TRỌNG)
+.env
+.env.local
+
+# Ẩn các thư mục ảo hóa Python (nếu bạn dùng venv)
+venv/
+.venv/
+env/
+
+# Ẩn các file cache sinh ra khi chạy Python hoặc Pytest
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
