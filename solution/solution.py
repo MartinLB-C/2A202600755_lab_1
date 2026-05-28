@@ -9,8 +9,15 @@ import time
 from typing import Any, Callable
 
 _MODULE_ALIAS = "student_solution"
-sys.modules[_MODULE_ALIAS] = sys.modules[__name__]
-
+# Ensure openai import surfaces a clear error when missing for editors/linters.
+try:
+    from openai import OpenAI  # type: ignore
+except Exception:  # pragma: no cover - runtime environment may not have openai installed
+    class OpenAI:  # type: ignore
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError(
+                "The 'openai' package is required. Install with: pip install openai"
+            )
 # ---------------------------------------------------------------------------
 # Estimated costs per 1K OUTPUT tokens (USD)
 # ---------------------------------------------------------------------------
@@ -223,6 +230,7 @@ def format_comparison_table(results: list[dict]) -> str:
 
     return "\n".join(lines)
 
+sys.modules.setdefault(_MODULE_ALIAS, sys.modules[__name__])
 
 for _fn in (
     call_openai,
